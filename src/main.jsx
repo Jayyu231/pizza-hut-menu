@@ -1,5 +1,18 @@
 import ReactDOM from "react-dom/client";
 import React from "react";
+import "./index.css";
+
+const openTime = 12;
+const closeTime = 24;
+const time = new Date().getHours();
+const isOpen = time < closeTime && time > openTime;
+if (isOpen) {
+  alert("We're open now! Wellcome!!");
+} else {
+  alert("Sorry! It's not our bussiness hour!!");
+}
+console.log(time);
+console.log(isOpen);
 
 const pizzaData = [
   {
@@ -48,26 +61,70 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
-      <h1>Hello JJJ</h1>
-      <Pizza />
-      <Pizza />
+    <div className="container">
+      <Header />
+      <Menu />
+      <Footer />
     </div>
   );
 }
 
-function Pizza() {
+function Header() {
   return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h2>Pizza Spinaci</h2>
-      {/* <h2>{pizzaData[2].name}</h2> */}
-      {/* <p>{pizzaData[2].ingredients}</p> */}
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
+    <div className="header">
+      <h1
+      // style={{ color: "red", fontSize: "32px", textTransform: "uppercase" }}
+      >
+        Fast React Pizza Co.
+      </h1>
     </div>
   );
 }
 
+function Menu() {
+  return (
+    <main className="menu">
+      <h2>Our Menu</h2>
+
+      <ul className="pizzas">
+        {pizzaData.map((pizza) => (
+          <Pizza pizzaObj={pizza} key={pizza.name} />
+          // <Pizza name={pizza.name} photoName={pizza.photoName} />
+        ))}
+      </ul>
+    </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <div>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <p>$ {props.pizzaObj.price}</p>
+      </div>
+    </li>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      {/* {`${new Date().toLocaleTimeString()}. We're currently open`} */}
+      {/* 影片中的不行用 {new Date().toLocaleTimeString()}. We're currently open */}
+      {new Date().toLocaleTimeString()}. We&apos;re currently open
+      {/* ' can be replaced with &apos;, &lsquo;, &#39; or &rsquo; */}
+    </footer>
+    // <>
+    //   <h3>
+    // {`We're open until ${new Date().toLocaleTimeString()}.`} Come and visit
+    //     us or order
+    //   </h3>
+    // </>
+  );
+}
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
